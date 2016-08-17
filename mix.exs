@@ -14,7 +14,7 @@ defmodule RexSlack.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :slack],
+    [applications: [:logger, :slack, :tirexs],
      mod: {RexSlack, []}]
   end
 
@@ -30,7 +30,9 @@ defmodule RexSlack.Mixfile do
   defp deps do
     [
       {:slack, "~> 0.0.5"},
-      {:websocket_client, git: "https://github.com/jeremyong/websocket_client"}
+      {:tirexs, "~> 0.8"},
+      {:exjsx, "~> 3.2.0", override: true},
+      {:websocket_client, git: "https://github.com/jeremyong/websocket_client"},
     ]
   end
 end

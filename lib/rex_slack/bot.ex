@@ -8,7 +8,6 @@ defmodule RexSlack.Bot do
   end
 
   def init(initial_state, slack) do
-    # We'll output when we're connected
     IO.puts "Connected as #{slack.me.name}"
     {:ok, initial_state}
   end
