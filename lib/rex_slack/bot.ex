@@ -51,8 +51,6 @@ defmodule RexSlack.Bot do
   end
 
   defp elastic_search(str, team) do
-    Logger.debug inspect team
-    Logger.debug inspect get("/rex-questions/_search?q=question:#{URI.encode(str)}&team_id:#{team}")
     get("/rex-questions/_search?q=question:#{URI.encode(str)}&must:team_id:#{team}") |> elastic_result
   end
 
