@@ -4,6 +4,7 @@ defmodule RexSlack.Bot do
   require Logger
   import Tirexs.HTTP
 
+
   # So we'll define a start_link function, and we'll defer to the
   # Slack.start_link function, passing it our API Token
   def start_link(initial_state) do
@@ -50,8 +51,9 @@ defmodule RexSlack.Bot do
   end
 
   defp elastic_search(str, team) do
-    Logger.debug inspect get("/rex-questions/_search?q=question:#{str}&team_id:#{team}")
-    get("/rex-questions/_search?q=question:#{str}&must:team_id:#{team}") |> elastic_result
+    Logger.debug inspect team
+    Logger.debug inspect get("/rex-questions/_search?q=question:#{URI.encode(str)}&team_id:#{team}")
+    get("/rex-questions/_search?q=question:#{URI.encode(str)}&must:team_id:#{team}") |> elastic_result
   end
 
 
