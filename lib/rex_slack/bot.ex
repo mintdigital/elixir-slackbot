@@ -8,7 +8,7 @@ defmodule RexSlack.Bot do
   # So we'll define a start_link function, and we'll defer to the
   # Slack.start_link function, passing it our API Token
   def start_link(initial_state) do
-    Slack.start_link(__MODULE__, "xoxb-70074277063-adbl3wsCtVW3AnIQ7Jxw4L5H", initial_state)
+    Slack.start_link(__MODULE__, System.get_env("SLACK_API_TOKEN"), initial_state)
   end
 
   def init(initial_state, _slack), do: {:ok, initial_state}
@@ -46,18 +46,32 @@ defmodule RexSlack.Bot do
       Regex.match?(~r/^lie down$/i, str) -> "You want me to take the day off? Fine by me!"
       Regex.match?(~r/^heel$/i, str) -> "I think you’ve confused me with a chiropodist."
       Regex.match?(~r/^speak$/i, str) -> "Je m'appelle Rex. J'aime les treats."
+      Regex.match?(~r/^(hello|hey|hi|yo|sup|holla|good morning|good afternoon)$/i, str) -> get_random_hello_response
+      Regex.match?(~r/^(thanks|cheers|thank you|thankyou|thank-you|ta|nice one)$/i, str) -> get_random_thanks_response
       true -> elastic_search(str, team)
     end
   end
 
   defp elastic_search(str, team) do
-    get("/rex-questions/_search?q=question:#{URI.encode(str)}&must:team_id:#{team}") |> elastic_result
+    get("/#{System.get_env("BONSAI_INDEX_NAME")}/_search?q=question:#{URI.encode(str)}&must:team_id:#{team}") |> elastic_result
   end
 
-
+  defp elastic_result({:ok, 200, %{hits: %{hits: []}}}), do: get_no_answer_response
   defp elastic_result({:ok, 200, %{hits: %{hits: results}}}) do
     results = (results |> List.first)
     "*Q: #{results[:_source][:question]}*\nA: #{results[:_source][:answer]}"
   end
-  defp elastic_result(_),do: "Sorry! I do not have an answer for your question."
+  defp elastic_result(_), do: get_no_answer_response
+
+  defp get_random_hello_response do
+    Enum.random(["Hi there!", "Here I am!", "Yo!", "Hey there!", "G'day!", "Rex at your service!", "Woof!"])
+  end
+
+  defp get_random_thanks_response do
+    Enum.random(["You're welcome!", "Glad to help!", "No problemo!", "My pleasure!", "Piece of cake!"])
+  end
+
+  def get_no_answer_response do
+    Enum.random(["Sorry, I don’t have an answer to that one right now.", "Hmm, not sure I can answer that one. Sorry!"])
+  end
 end
