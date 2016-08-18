@@ -17,8 +17,6 @@ defmodule RexSlackTest do
       end
     end
 
-    Logger.debug inspect Tirexs.Query.create_resource(find_question)
-
     {:ok, 200, %{hits: %{hits: results}}} = Tirexs.Query.create_resource(find_question)
     expected = [
       "Is there a cashpoint/ATM near the UK office?",
