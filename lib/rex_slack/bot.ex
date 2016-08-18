@@ -7,7 +7,6 @@ defmodule RexSlack.Bot do
   # So we'll define a start_link function, and we'll defer to the
   # Slack.start_link function, passing it our API Token
   def start_link(initial_state) do
-    Logger.debug inspect initial_state
     Slack.start_link(__MODULE__, "xoxb-70074277063-adbl3wsCtVW3AnIQ7Jxw4L5H", initial_state)
   end
 
@@ -16,8 +15,6 @@ defmodule RexSlack.Bot do
 
   def handle_message({:type, "hello", _}, slack, state), do: {:ok, state}
   def handle_message({:type, "message", response = %{text: text}}, slack, state) do
-    Logger.debug inspect "1"
-    Logger.debug inspect response
     # While our bot is connected, we'll send an upcased reply to all messages
     text
     |> regex_message
