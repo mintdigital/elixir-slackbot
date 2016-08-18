@@ -1,7 +1,6 @@
 defmodule RexSlack.Bot do
   use Slack
   import Tirexs.Search
-  require Logger
   import Tirexs.HTTP
 
 
