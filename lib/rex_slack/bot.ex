@@ -1,6 +1,8 @@
 defmodule RexSlack.Bot do
   use Slack
   import Tirexs.Search
+  require Logger
+  import Tirexs.HTTP
 
   # So we'll define a start_link function, and we'll defer to the
   # Slack.start_link function, passing it our API Token
@@ -12,10 +14,10 @@ defmodule RexSlack.Bot do
   def handle_connect(slack), do: IO.puts "Connected as #{slack.me.name}"
 
   def handle_message({:type, "hello", _}, _slack, state), do: {:ok, state}
-  def handle_message({:type, "message", response = %{text: text}}, slack, state) do
+  def handle_message({:type, "message", response = %{text: text, team: team}}, slack, state) do
     # While our bot is connected, we'll send an upcased reply to all messages
     text
-    |> regex_message
+    |> regex_message(team)
     |> Slack.send_message(response.channel, slack)
 
     {:ok, state}
@@ -28,7 +30,7 @@ defmodule RexSlack.Bot do
   end
   def handle_info(_, _), do: :ok
 
-  defp regex_message(str) do
+  defp regex_message(str, team) do
     cond do
       Regex.match?(~r/^woof$/i, str) -> "Woof back atcha!"
       Regex.match?(~r/^stupid dog$/i, str) -> "Just so you know - this stupid dog was programmed by stupid humans."
@@ -43,26 +45,19 @@ defmodule RexSlack.Bot do
       Regex.match?(~r/^lie down$/i, str) -> "You want me to take the day off? Fine by me!"
       Regex.match?(~r/^heel$/i, str) -> "I think you’ve confused me with a chiropodist."
       Regex.match?(~r/^speak$/i, str) -> "Je m'appelle Rex. J'aime les treats."
-      true -> elastic_search(str)
+      true -> elastic_search(str, team)
     end
   end
 
-  defp elastic_search(str) do
-    find_question = search [index: "rex-questions"] do
-      query do
-        match "question", str
-      end
-    end
-
-    Tirexs.Query.create_resource(find_question) |> elastic_result
+  defp elastic_search(str, team) do
+    Logger.debug inspect get("/rex-questions/_search?q=question:#{str}&team_id:#{team}")
+    get("/rex-questions/_search?q=question:#{str}&must:team_id:#{team}") |> elastic_result
   end
 
-  defp elastic_result({:ok, 200, %{hits: %{hits: []}}}) do
-    "Sorry! I do not have an answer for your question."
-  end
 
   defp elastic_result({:ok, 200, %{hits: %{hits: results}}}) do
     results = (results |> List.first)
     "*Q: #{results[:_source][:question]}*\nA: #{results[:_source][:answer]}"
   end
+  defp elastic_result(_),do: "Sorry! I do not have an answer for your question."
 end
