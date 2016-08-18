@@ -1,8 +1,6 @@
 defmodule RexSlack.Bot do
   use Slack
   import Tirexs.Search
-  import Tirexs.HTTP
-  require Logger
 
   # So we'll define a start_link function, and we'll defer to the
   # Slack.start_link function, passing it our API Token
@@ -10,10 +8,10 @@ defmodule RexSlack.Bot do
     Slack.start_link(__MODULE__, "xoxb-70074277063-adbl3wsCtVW3AnIQ7Jxw4L5H", initial_state)
   end
 
-  def init(initial_state, slack), do: {:ok, initial_state}
+  def init(initial_state, _slack), do: {:ok, initial_state}
   def handle_connect(slack), do: IO.puts "Connected as #{slack.me.name}"
 
-  def handle_message({:type, "hello", _}, slack, state), do: {:ok, state}
+  def handle_message({:type, "hello", _}, _slack, state), do: {:ok, state}
   def handle_message({:type, "message", response = %{text: text}}, slack, state) do
     # While our bot is connected, we'll send an upcased reply to all messages
     text
