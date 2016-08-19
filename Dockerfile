@@ -5,6 +5,7 @@ FROM trenpixster/elixir:1.3.0
 # Compile app
 RUN mkdir /app
 WORKDIR /app
+SET MIX_ENV=prod
 
 # Install Elixir Deps
 ADD mix.* ./
