@@ -7,7 +7,7 @@ defmodule RexSlack.Bot do
   # So we'll define a start_link function, and we'll defer to the
   # Slack.start_link function, passing it our API Token
   def start_link(initial_state) do
-    Slack.start_link(__MODULE__, System.get_env("SLACK_API_TOKEN"), initial_state)
+    Slack.start_link(__MODULE__, "xoxb-70074277063-adbl3wsCtVW3AnIQ7Jxw4L5H", initial_state)
   end
 
   def init(initial_state, _slack), do: {:ok, initial_state}
@@ -52,7 +52,7 @@ defmodule RexSlack.Bot do
   end
 
   defp elastic_search(str, team) do
-    get("/#{System.get_env("BONSAI_INDEX_NAME")}/_search?q=question:#{URI.encode(str)}&must:team_id:#{team}") |> elastic_result
+    get("/rex-questions/_search?q=question:#{URI.encode(str)}&must:team_id:#{team}") |> elastic_result
   end
 
   defp elastic_result({:ok, 200, %{hits: %{hits: []}}}), do: get_no_answer_response
