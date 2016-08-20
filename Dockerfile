@@ -2,10 +2,13 @@
 # I chose this one because it has Elixir preinstalled.
 FROM trenpixster/elixir:1.3.0
 
+# Copy ENV from host to container
+ENV HOST_VARS inject_here
+ENV MIX_ENV=prod
+
 # Compile app
 RUN mkdir /app
 WORKDIR /app
-SET MIX_ENV=prod
 
 # Install Elixir Deps
 ADD mix.* ./
@@ -21,4 +24,4 @@ RUN MIX_ENV=prod mix compile
 EXPOSE 4000
 
 # The command to run when this image starts up
-CMD MIX_ENV=prod iex -S mix
+CMD MIX_ENV=prod mix run --no-halt
