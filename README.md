@@ -1,4 +1,4 @@
-# RexSlack
+# RexBot
 
 **TODO: Add description**
 
@@ -6,19 +6,18 @@
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
 
-  1. Add `rex_slack` to your list of dependencies in `mix.exs`:
+  1. Add `rex_bot` to your list of dependencies in `mix.exs`:
 
     ```elixir
     def deps do
-      [{:rex_slack, "~> 0.1.0"}]
+      [{:rex_bot, "~> 0.1.0"}]
     end
     ```
 
-  2. Ensure `rex_slack` is started before your application:
+  2. Ensure `rex_bot` is started before your application:
 
     ```elixir
     def application do
-      [applications: [:rex_slack]]
+      [applications: [:rex_bot]]
     end
     ```
-

@@ -1,20 +1,17 @@
-defmodule RexSlack.Bot do
+defmodule RexBot.Bot do
   use Slack
-  import Tirexs.Search
-  require Logger
   import Tirexs.HTTP
 
-
-  # So we'll define a start_link function, and we'll defer to the
-  # Slack.start_link function, passing it our API Token
   def start_link(initial_state) do
     Slack.start_link(__MODULE__, "xoxb-70074277063-adbl3wsCtVW3AnIQ7Jxw4L5H", initial_state)
   end
 
   def init(initial_state, _slack), do: {:ok, initial_state}
-  def handle_connect(slack), do: IO.puts "Connected as #{slack.me.name}"
 
-  def handle_message({:type, "hello", _}, _slack, state), do: {:ok, state}
+  def handle_message({:type, "hello", _}, _slack, state) do
+    {:ok, state}
+  end
+
   def handle_message({:type, "message", response = %{text: text, team: team}}, slack, state) do
     # While our bot is connected, we'll send an upcased reply to all messages
     text
@@ -23,13 +20,10 @@ defmodule RexSlack.Bot do
 
     {:ok, state}
   end
-  def handle_message(_,_,state), do: {:ok, state}
 
-  def handle_info({:message, text, channel}, slack) do
-    Slack.send_message(text, channel, slack)
-    {:ok}
+  def handle_message(_,_,state) do
+    {:ok, state}
   end
-  def handle_info(_, _), do: :ok
 
   defp regex_message(str, team) do
     cond do
@@ -53,7 +47,6 @@ defmodule RexSlack.Bot do
   defp elastic_search(str, team) do
     get("/rex-questions/_search?q=question:#{URI.encode(str)}&must:team_id:#{team}") |> elastic_result
   end
-
 
   defp elastic_result({:ok, 200, %{hits: %{hits: results}}}) do
     results = (results |> List.first)

@@ -1,8 +1,8 @@
-defmodule RexSlack.Mixfile do
+defmodule RexBot.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :rex_slack,
+    [app: :rex_bot,
      version: "0.1.0",
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
@@ -15,7 +15,7 @@ defmodule RexSlack.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     [applications: [:logger, :slack, :tirexs],
-     mod: {RexSlack, []}]
+     mod: {RexBot, []}]
   end
 
   # Dependencies can be Hex packages:

@@ -1,4 +1,4 @@
-defmodule RexSlack do
+defmodule RexBot do
   use Application
 
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
@@ -8,13 +8,13 @@ defmodule RexSlack do
 
     # Define workers and child supervisors to be supervised
     children = [
-      # Starts a worker by calling: RexSlack.Worker.start_link(arg1, arg2, arg3)
-      worker(RexSlack.Bot, [[]]),
+      # Starts a worker by calling: RexBot.Worker.start_link(arg1, arg2, arg3)
+      worker(RexBot.Bot, [[]]),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: RexSlack.Supervisor]
+    opts = [strategy: :one_for_one, name: RexBot.Supervisor]
     Supervisor.start_link(children, opts)
   end
 end

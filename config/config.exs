@@ -10,11 +10,11 @@ use Mix.Config
 
 # You can configure for your application as:
 #
-#     config :rex_slack, key: :value
+#     config :rex_bot, key: :value
 #
 # And access this configuration in your application as:
 #
-#     Application.get_env(:rex_slack, :key)
+#     Application.get_env(:rex_bot, :key)
 #
 # Or configure a 3rd-party app:
 #
