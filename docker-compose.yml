@@ -1,0 +1,11 @@
+server:
+  build: .
+  command: mix run --no-halt
+  dockerfile: Dockerfile.dev
+  ports:
+    - '4000:4000'
+  env_file:
+    - .env
+  working_dir: /app
+  volumes:
+    - .:/app
