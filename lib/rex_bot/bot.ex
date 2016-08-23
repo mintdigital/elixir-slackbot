@@ -46,7 +46,7 @@ defmodule RexBot.Bot do
   end
 
   defp elastic_search(str, team) do
-    get("/#{System.get_env("BONSAI_INDEX_NAME")}/_search?q=question:#{URI.encode(str)}&must:team_id:#{team}") |> elastic_result
+    get("/#{System.get_env("ELASTIC_SEARCH_INDEX_NAME")}/_search?q=question:#{URI.encode(str)}&must:team_id:#{team}") |> elastic_result
   end
 
   defp elastic_result({:ok, 200, %{hits: %{hits: []}}}), do: get_no_answer_response
