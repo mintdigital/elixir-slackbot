@@ -2,10 +2,15 @@ server:
   build: .
   command: mix run --no-halt
   dockerfile: Dockerfile.dev
-  ports:
-    - '4000:4000'
+  links:
+    - elasticsearch
   env_file:
     - .env
   working_dir: /app
   volumes:
     - .:/app
+elasticsearch:
+  image: elasticsearch:latest
+  ports:
+    - "9200"
+    - "9300"

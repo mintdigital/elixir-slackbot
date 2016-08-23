@@ -57,14 +57,14 @@ defmodule RexBot.Bot do
   defp elastic_result(_), do: get_no_answer_response
 
   defp get_random_hello_response do
-    Enum.random(["Hi there!", "Here I am!", "Yo!", "Hey there!", "G'day!", "Rex at your service!", "Woof!"])
+    ["Hi there!", "Here I am!", "Yo!", "Hey there!", "G'day!", "Rex at your service!", "Woof!"] |> Enum.random
   end
 
   defp get_random_thanks_response do
-    Enum.random(["You're welcome!", "Glad to help!", "No problemo!", "My pleasure!", "Piece of cake!"])
+    ["You're welcome!", "Glad to help!", "No problemo!", "My pleasure!", "Piece of cake!"] |> Enum.random
   end
 
   def get_no_answer_response do
-    Enum.random(["Sorry, I don’t have an answer to that one right now.", "Hmm, not sure I can answer that one. Sorry!"])
+    ["Sorry, I don’t have an answer to that one right now.", "Hmm, not sure I can answer that one. Sorry!"] |> Enum.random
   end
 end
