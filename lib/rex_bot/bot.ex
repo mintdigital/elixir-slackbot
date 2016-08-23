@@ -1,6 +1,5 @@
 defmodule RexBot.Bot do
   use Slack
-  import Tirexs.HTTP
 
   def start_link(initial_state) do
     Slack.start_link(__MODULE__, System.get_env("SLACK_API_TOKEN"), initial_state)
@@ -41,20 +40,9 @@ defmodule RexBot.Bot do
       Regex.match?(~r/^speak$/i, str) -> "Je m'appelle Rex. J'aime les treats."
       Regex.match?(~r/^(hello|hey|hi|yo|sup|holla|good morning|good afternoon)$/i, str) -> get_random_hello_response
       Regex.match?(~r/^(thanks|cheers|thank you|thankyou|thank-you|ta|nice one)$/i, str) -> get_random_thanks_response
-      true -> elastic_search(str, team)
+      true -> Elasticsearch.search(str, team) |> es_response
     end
   end
-
-  defp elastic_search(str, team) do
-    get("/#{System.get_env("ELASTIC_SEARCH_INDEX_NAME")}/_search?q=question:#{URI.encode(str)}&must:team_id:#{team}") |> elastic_result
-  end
-
-  defp elastic_result({:ok, 200, %{hits: %{hits: []}}}), do: get_no_answer_response
-  defp elastic_result({:ok, 200, %{hits: %{hits: results}}}) do
-    results = (results |> List.first)
-    "*Q: #{results[:_source][:question]}*\nA: #{results[:_source][:answer]}"
-  end
-  defp elastic_result(_), do: get_no_answer_response
 
   defp get_random_hello_response do
     ["Hi there!", "Here I am!", "Yo!", "Hey there!", "G'day!", "Rex at your service!", "Woof!"] |> Enum.random
@@ -64,7 +52,15 @@ defmodule RexBot.Bot do
     ["You're welcome!", "Glad to help!", "No problemo!", "My pleasure!", "Piece of cake!"] |> Enum.random
   end
 
-  def get_no_answer_response do
-    ["Sorry, I don’t have an answer to that one right now.", "Hmm, not sure I can answer that one. Sorry!"] |> Enum.random
+  def es_response([]) do
+    [
+      "Sorry, I don’t have an answer to that one right now.",
+      "Hmm, not sure I can answer that one. Sorry!"
+    ]
+    |> Enum.random
+  end
+
+  def es_response(%Elasticsearch{question: question, answer: answer}) do
+    "*Q: #{question}*\nA: #{answer}"
   end
 end
