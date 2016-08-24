@@ -4,7 +4,6 @@ defmodule RexBotTest do
 
   import Tirexs.Search
   import Tirexs.HTTP
-  require Logger
 
   test "search documents inside of elasticsearch" do
     # Create the index

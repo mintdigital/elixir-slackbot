@@ -32,7 +32,8 @@ defmodule RexBot.Mixfile do
       {:slack, "~> 0.0.5"},
       {:tirexs, "~> 0.8"},
       {:exjsx, "~> 3.2.0", override: true},
-      {:websocket_client, git: "https://github.com/jeremyong/websocket_client"},
+      {:websocket_client, github: "jeremyong/websocket_client"},
+      {:ex_doc, github: "elixir-lang/ex_doc"} 
     ]
   end
 end

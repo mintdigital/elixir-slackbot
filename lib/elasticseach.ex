@@ -1,4 +1,12 @@
 defmodule Elasticsearch do
+  @moduledoc """
+  Provides the `search` function which takes a `str` and a `team` ID.
+  It will perform an ElasticSearch search based on the parameters you provide.
+
+  If ES finds any matches it will return a struct like so
+  `%ElasticSearch{question: "", answer: ""}`, if there are no matches OR if
+  ES fails it will return an empty array.
+  """
   import Tirexs.HTTP
   defstruct question: "", answer: ""
 

@@ -1,4 +1,39 @@
 defmodule Matcher do
+  @moduledoc """
+  Provides the run_match function which will take a string and a team ID.
+  It will first check to see if the give string has a canned reponse, if
+  it does it will return the specified string.
+
+  If it fails to match a canned reponse it will serach ElasticSearch
+  for a question that could be relevant. If it finds a question that is
+  relevant we will returned the stored answer. If it fails to find a match
+  we return a standard reponse that is stored in @no_reply_response.
+  """
+
+  @hello_responses    ["Hi there!", "Here I am!", "Yo!", "Hey there!", "G'day!", "Rex at your service!", "Woof!"]
+  @thanks_responses   ["You're welcome!", "Glad to help!", "No problemo!", "My pleasure!", "Piece of cake!"]
+  @no_reply_reponses  ["Sorry, I don’t have an answer to that one right now.", "Hmm, not sure I can answer that one. Sorry!"]
+
+  @doc """
+  Reponds with the most appropriate answer to the question given via `str`
+
+  Returns a string.
+
+  ## Examples
+
+    iex> Matcher.run_match("woof", nil)
+    "Woof back atcha!"
+
+    iex> Matcher.run_match("hello", nil)
+    "Yo!"
+
+    iex> Matcher.run_match("thanks", nil)
+    "No problemo!"
+
+    iex> Matcher.run_match("Where is the nearest cashpoint?", "123GHD")
+    "There is a cashpoint just outside near the UK office"
+
+  """
   def run_match(str, team) do
     cond do
       Regex.match?(~r/^woof$/i, str) -> "Woof back atcha!"
@@ -21,22 +56,18 @@ defmodule Matcher do
   end
 
   defp get_random_hello_response do
-    ["Hi there!", "Here I am!", "Yo!", "Hey there!", "G'day!", "Rex at your service!", "Woof!"] |> Enum.random
+    @hello_responses |> Enum.random
   end
 
   defp get_random_thanks_response do
-    ["You're welcome!", "Glad to help!", "No problemo!", "My pleasure!", "Piece of cake!"] |> Enum.random
+    @thanks_responses |> Enum.random
   end
 
   def es_response([]) do
-    [
-      "Sorry, I don’t have an answer to that one right now.",
-      "Hmm, not sure I can answer that one. Sorry!"
-    ]
-    |> Enum.random
+   @no_reply_reponses |> Enum.random
   end
 
-  def es_response(%Elasticsearch{question: question, answer: answer}) do
+  def es_response(%{question: question, answer: answer}) do
     "*Q: #{question}*\nA: #{answer}"
   end
 end
