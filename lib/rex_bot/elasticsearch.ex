@@ -1,4 +1,4 @@
-defmodule Elasticsearch do
+defmodule RexBot.Elasticsearch do
   @moduledoc """
   Provides the `search` function which takes a `str` and a `team` ID.
   It will perform an ElasticSearch search based on the parameters you provide.
@@ -19,7 +19,7 @@ defmodule Elasticsearch do
 
   defp format_response({:ok, 200, %{hits: %{hits: results}}}) do
     results = (results |> List.first)
-    %Elasticsearch{
+    %RexBot.Elasticsearch{
       question: results[:_source][:question],
       answer:   results[:_source][:answer]
     }

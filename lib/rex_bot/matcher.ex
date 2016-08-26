@@ -1,4 +1,4 @@
-defmodule Matcher do
+defmodule RexBot.Matcher do
   @moduledoc """
   Provides the run_match function which will take a string and a team ID.
   It will first check to see if the give string has a canned reponse, if
@@ -14,23 +14,23 @@ defmodule Matcher do
   @thanks_responses   ["You're welcome!", "Glad to help!", "No problemo!", "My pleasure!", "Piece of cake!"]
   @no_reply_reponses  ["Sorry, I don’t have an answer to that one right now.", "Hmm, not sure I can answer that one. Sorry!"]
 
-  @doc """
+  @doc ~S"""
   Reponds with the most appropriate answer to the question given via `str`
 
   Returns a string.
 
   ## Examples
 
-    iex> Matcher.run_match("woof", nil)
+    iex> RexBot.Matcher.run_match("woof", nil)
     "Woof back atcha!"
 
-    iex> Matcher.run_match("hello", nil)
+    iex> RexBot.Matcher.run_match("hello", nil)
     "Yo!"
 
-    iex> Matcher.run_match("thanks", nil)
+    iex> RexBot.Matcher.run_match("thanks", nil)
     "No problemo!"
 
-    iex> Matcher.run_match("Where is the nearest cashpoint?", "123GHD")
+    iex> RexBot.Matcher.run_match("Where is the nearest cashpoint?", "123GHD")
     "There is a cashpoint just outside near the UK office"
 
   """
@@ -51,7 +51,7 @@ defmodule Matcher do
       Regex.match?(~r/^speak$/i, str) -> "Je m'appelle Rex. J'aime les treats."
       Regex.match?(~r/^(hello|hey|hi|yo|sup|holla|good morning|good afternoon)$/i, str) -> get_random_hello_response
       Regex.match?(~r/^(thanks|cheers|thank you|thankyou|thank-you|ta|nice one)$/i, str) -> get_random_thanks_response
-      true -> Elasticsearch.search(str, team) |> es_response
+      true -> RexBot.Elasticsearch.search(str, team) |> es_response
     end
   end
 

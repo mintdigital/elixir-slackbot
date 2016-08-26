@@ -13,7 +13,7 @@ defmodule RexBot.Bot do
 
   def handle_message({:type, "message", response = %{text: text, team: team}}, slack, state) do
     text
-    |> Matcher.run_match(team)
+    |> RexBot.Matcher.run_match(team)
     |> Slack.send_message(response.channel, slack)
 
     {:ok, state}

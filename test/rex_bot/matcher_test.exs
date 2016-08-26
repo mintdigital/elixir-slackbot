@@ -1,6 +1,6 @@
-defmodule MatcherTest do
+defmodule RexBot.MatcherTest do
   use ExUnit.Case, async: true
-  doctest Matcher
+  doctest RexBot.Matcher
 
   test "should match a canned hello reponse" do
   end

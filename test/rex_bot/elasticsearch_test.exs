@@ -1,6 +1,6 @@
-defmodule ElasticsearchTest do
+defmodule RexBot.ElasticsearchTest do
   use ExUnit.Case, async: true
-  doctest Elasticsearch
+  doctest RexBot.Elasticsearch
 
   import Tirexs.Search
   import Tirexs.HTTP
@@ -14,7 +14,7 @@ defmodule ElasticsearchTest do
     put("/rex-test-questions/questions/2", [question: "Is there a cashpoint/ATM near the UK office?", team: "AER78"])
     put("/rex-test-questions/questions/3", [question: "How do I find out how many days we've spent on a project?", team: "AER78"])
 
-    assert Elasticsearch.search("UK", "ER70") == %{question: "Where is the nearest Post Office to the UK office?", answer: "My answer..."}
+    assert RexBot.Elasticsearch.search("UK", "ER70") == %RexBot.Elasticsearch{question: "Where is the nearest Post Office to the UK office?", answer: "My answer..."}
   end
 
   test "should return no records if it cannot find a question that is relevant" do
