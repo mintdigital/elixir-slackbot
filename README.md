@@ -1,4 +1,4 @@
-Rex
+Rexbot
 ============
 
 What is Rex?
