@@ -1,23 +1,40 @@
-# RexBot
+Rex
+============
 
-**TODO: Add description**
+What is Rex?
+------------
 
-## Installation
+You feed Rex information your team needs to know, and Rex uses it to answer questions employees have.
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
+For small-medium sized companies focusing on growth, Rex helps you record and distribute important internal information your workforce needs. Using Rex to handle low-value queries frees your team up to focus on the things that really matter.
 
-  1. Add `rex_bot` to your list of dependencies in `mix.exs`:
+Docker setup
+-------------
 
-    ```elixir
-    def deps do
-      [{:rex_bot, "~> 0.1.0"}]
-    end
-    ```
+1. Install [Docker for Mac](https://docs.docker.com/engine/installation/mac/) if you haven't already.
 
-  2. Ensure `rex_bot` is started before your application:
+2. Install [Docker Compose](https://docs.docker.com/compose/install/) if you haven't already.
 
-    ```elixir
-    def application do
-      [applications: [:rex_bot]]
-    end
-    ```
+3. In Terminal, go to your projects directory and clone the project:
+
+        cd ~/Documents/Projects/
+        git clone git@github.com:mintdigital/rexbot.git
+
+
+4. Build Docker
+
+        docker-compose build
+
+6. Run the tests
+
+        docker-compose run server mix test
+
+8. Run the app!
+
+        docker-compose up
+
+Further setup
+-------------
+
+There are further steps that we need to undertake in order for this to fully work.
+I will outline them in the near future.
