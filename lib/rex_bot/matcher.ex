@@ -1,4 +1,5 @@
 defmodule RexBot.Matcher do
+  ### Module Attributes ###
   @moduledoc """
   Provides the run_match function which will take a string and a team ID.
   It will first check to see if the give string has a canned reponse, if
@@ -10,10 +11,30 @@ defmodule RexBot.Matcher do
   we return a standard reponse that is stored in @no_reply_response.
   """
 
-  @hello_responses    ["Hi there!", "Here I am!", "Yo!", "Hey there!", "G'day!", "Rex at your service!", "Woof!"]
-  @thanks_responses   ["You're welcome!", "Glad to help!", "No problemo!", "My pleasure!", "Piece of cake!"]
-  @no_reply_reponses  ["Sorry, I don’t have an answer to that one right now.", "Hmm, not sure I can answer that one. Sorry!"]
+  @hello_responses    [
+    "Hi there!",
+    "Here I am!",
+    "Yo!",
+    "Hey there!",
+    "G'day!",
+    "Rex at your service!",
+    "Woof!"
+  ]
 
+  @thanks_responses   [
+    "You're welcome!",
+    "Glad to help!",
+    "No problemo!",
+    "My pleasure!",
+    "Piece of cake!"
+  ]
+
+  @no_reply_responses  [
+    "Sorry, I don’t have an answer to that one right now.",
+    "Hmm, not sure I can answer that one. Sorry!"
+  ]
+
+  ### Functions ###
   @doc ~S"""
   Reponds with the most appropriate answer to the question given via `str`
 
@@ -24,17 +45,8 @@ defmodule RexBot.Matcher do
     iex> RexBot.Matcher.run_match("woof", nil)
     "Woof back atcha!"
 
-    iex> RexBot.Matcher.run_match("hello", nil)
-    "Yo!"
-
-    iex> RexBot.Matcher.run_match("thanks", nil)
-    "No problemo!"
-
-    iex> RexBot.Matcher.run_match("Where is the nearest cashpoint?", "123GHD")
-    "There is a cashpoint just outside near the UK office"
-
   """
-  def run_match(str, team) do
+  def run_match(str, team, elasticsearch_api \\ Elasticsearch.HTTP) do
     cond do
       Regex.match?(~r/^woof$/i, str) -> "Woof back atcha!"
       Regex.match?(~r/^stupid dog$/i, str) -> "Just so you know - this stupid dog was programmed by stupid humans."
@@ -51,7 +63,7 @@ defmodule RexBot.Matcher do
       Regex.match?(~r/^speak$/i, str) -> "Je m'appelle Rex. J'aime les treats."
       Regex.match?(~r/^(hello|hey|hi|yo|sup|holla|good morning|good afternoon)$/i, str) -> get_random_hello_response
       Regex.match?(~r/^(thanks|cheers|thank you|thankyou|thank-you|ta|nice one)$/i, str) -> get_random_thanks_response
-      true -> RexBot.Elasticsearch.search(str, team) |> es_response
+      true -> elasticsearch_api.run_search(str, team) |> es_response
     end
   end
 
@@ -63,8 +75,8 @@ defmodule RexBot.Matcher do
     @thanks_responses |> Enum.random
   end
 
-  def es_response([]) do
-   @no_reply_reponses |> Enum.random
+  def es_response(%{question: "", answer: ""}) do
+   @no_reply_responses |> Enum.random
   end
 
   def es_response(%{question: question, answer: answer}) do

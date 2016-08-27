@@ -1,6 +1,8 @@
 defmodule RexBot.Bot do
+  ### Use ###
   use Slack
 
+  ### Functions ###
   def start_link(initial_state) do
     Slack.start_link(__MODULE__, System.get_env("SLACK_API_TOKEN"), initial_state)
   end
