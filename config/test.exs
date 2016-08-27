@@ -1,3 +1,3 @@
 use Mix.Config
-config :tirexs, :uri, "http://localhost:9200"
+config :tirexs, :uri, System.get_env("ELASTICSEARCH_URL")
 config :rex_bot, :elasticsearch_index_name, "rex-test-questions"
