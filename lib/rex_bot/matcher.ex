@@ -46,7 +46,7 @@ defmodule RexBot.Matcher do
     "Woof back atcha!"
 
   """
-  @spec run_match(String.t, String.t, any) :: String.t
+  @spec run_match(str :: String.t, team :: String.t, elasticsearch_api :: any) :: String.t
   def run_match(str, team, elasticsearch_api \\ Elasticsearch.HTTP) do
     cond do
       Regex.match?(~r/^woof$/i, str) -> "Woof back atcha!"

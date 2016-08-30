@@ -15,12 +15,12 @@ defmodule Elasticsearch.HTTP do
   import Tirexs.Search
 
   ### Functions ###
-  @spec run_search(String.t, String.t) :: %Elasticsearch{}
+  @spec run_search(str :: String.t, team :: String.t) :: %Elasticsearch{}
   def run_search(str, team) do
     run_elasticsearch_query(str, team) |> format_response
   end
 
-  @spec run_elasticsearch_query(String.t, String.t) :: tuple
+  @spec run_elasticsearch_query(str :: String.t, team :: String.t) :: tuple
   defp run_elasticsearch_query(str, team) do
     query = search [index: @elasticsearch_index_name] do
       query do
