@@ -83,7 +83,6 @@ defmodule RexBot.Matcher do
    @no_reply_responses |> Enum.random
   end
 
-  @spec elasticsearch_response(map) :: String.t
   def elasticsearch_response(%{question: question, answer: answer}) do
     "*Q: #{question}*\nA: #{answer}"
   end
