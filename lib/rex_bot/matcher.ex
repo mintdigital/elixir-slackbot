@@ -46,6 +46,7 @@ defmodule RexBot.Matcher do
     "Woof back atcha!"
 
   """
+  @spec run_match(String.t, String.t, any) :: String.t
   def run_match(str, team, elasticsearch_api \\ Elasticsearch.HTTP) do
     cond do
       Regex.match?(~r/^woof$/i, str) -> "Woof back atcha!"
@@ -63,23 +64,27 @@ defmodule RexBot.Matcher do
       Regex.match?(~r/^speak$/i, str) -> "Je m'appelle Rex. J'aime les treats."
       Regex.match?(~r/^(hello|hey|hi|yo|sup|holla|good morning|good afternoon)$/i, str) -> get_random_hello_response
       Regex.match?(~r/^(thanks|cheers|thank you|thankyou|thank-you|ta|nice one)$/i, str) -> get_random_thanks_response
-      true -> elasticsearch_api.run_search(str, team) |> es_response
+      true -> elasticsearch_api.run_search(str, team) |> elasticsearch_response
     end
   end
 
+  @spec get_random_hello_response :: String.t
   defp get_random_hello_response do
     @hello_responses |> Enum.random
   end
 
+  @spec get_random_thanks_response :: String.t
   defp get_random_thanks_response do
     @thanks_responses |> Enum.random
   end
 
-  def es_response(%{question: "", answer: ""}) do
+  @spec elasticsearch_response(map) :: String.t
+  def elasticsearch_response(%{question: "", answer: ""}) do
    @no_reply_responses |> Enum.random
   end
 
-  def es_response(%{question: question, answer: answer}) do
+  @spec elasticsearch_response(map) :: String.t
+  def elasticsearch_response(%{question: question, answer: answer}) do
     "*Q: #{question}*\nA: #{answer}"
   end
 end

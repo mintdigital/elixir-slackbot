@@ -15,10 +15,12 @@ defmodule Elasticsearch.HTTP do
   import Tirexs.Search
 
   ### Functions ###
+  @spec run_search(String.t, String.t) :: %Elasticsearch{}
   def run_search(str, team) do
     run_elasticsearch_query(str, team) |> format_response
   end
 
+  @spec run_elasticsearch_query(String.t, String.t) :: tuple
   defp run_elasticsearch_query(str, team) do
     query = search [index: @elasticsearch_index_name] do
       query do
@@ -36,8 +38,8 @@ defmodule Elasticsearch.HTTP do
     Tirexs.Query.create_resource(query)
   end
 
+  @spec format_response(tuple) :: %Elasticsearch{}
   defp format_response({:ok, 200, %{hits: %{hits: []}}}), do: %Elasticsearch{}
-
   defp format_response({:ok, 200, %{hits: %{hits: responses}}}) do
     results = (responses |> List.first)
     %Elasticsearch{
@@ -45,6 +47,5 @@ defmodule Elasticsearch.HTTP do
       answer:   results[:_source][:answer]
     }
   end
-
   defp format_response(_), do: %Elasticsearch{}
 end
