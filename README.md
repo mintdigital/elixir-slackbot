@@ -20,14 +20,17 @@ Docker setup
         cd ~/Documents/Projects/
         git clone git@github.com:mintdigital/rexbot.git
 
+4. Copy the environment files
 
-4. Build Docker
+        cp .env.example .env
+
+5. Build Docker
 
         docker-compose build
 
 6. Run the tests
 
-        docker-compose run server mix test
+        docker-compose run server mix test --include elasticsearch_api
 
 8. Run the app!
 
