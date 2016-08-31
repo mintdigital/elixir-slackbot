@@ -14,10 +14,13 @@ defmodule Elasticsearch.HTTP do
   ### Import ###
   import Tirexs.Search
 
+  ### Aliases ###
+  alias Tirexs.Query
+
   ### Functions ###
   @spec run_search(str :: String.t, team :: String.t) :: %Elasticsearch{}
   def run_search(str, team) do
-    run_elasticsearch_query(str, team) |> format_response
+    str |> run_elasticsearch_query(team) |> format_response
   end
 
   @spec run_elasticsearch_query(str :: String.t, team :: String.t) :: tuple
@@ -35,7 +38,7 @@ defmodule Elasticsearch.HTTP do
       end
     end
 
-    Tirexs.Query.create_resource(query)
+    Query.create_resource(query)
   end
 
   @spec format_response(tuple) :: %Elasticsearch{}
