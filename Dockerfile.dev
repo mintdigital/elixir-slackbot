@@ -9,7 +9,7 @@ WORKDIR /app
 # Install Elixir Deps
 ADD mix.* ./
 RUN mix local.hex --force
-RUN mix local.rebar
+RUN mix local.rebar --force
 RUN mix deps.get
 
 # Install app
