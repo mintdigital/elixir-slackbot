@@ -8,9 +8,14 @@ WORKDIR /app
 
 # Install Elixir Deps
 ADD mix.* ./
-RUN MIX_ENV=prod mix local.rebar
-RUN MIX_ENV=prod mix local.hex --force
-RUN MIX_ENV=prod mix deps.get
+ADD mix.* ./
+RUN mix local.hex --force
+RUN mix local.rebar --force
+RUN mix deps.get
 
 # Install app
 ADD . .
+WORKDIR /app
+ADD . /app
+
+RUN cp -a /tmp/node_modules .
