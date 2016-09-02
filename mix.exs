@@ -34,7 +34,8 @@ defmodule RexBot.Mixfile do
       {:exjsx, "~> 3.2.0", override: true},
       {:websocket_client, github: "jeremyong/websocket_client"},
       {:ex_doc, github: "elixir-lang/ex_doc"},
-      {:credo, "~> 0.4", only: [:dev, :test]}
+      {:credo, "~> 0.4", only: [:dev, :test]},
+      {:distillery, "~> 0.9"}
     ]
   end
 end
