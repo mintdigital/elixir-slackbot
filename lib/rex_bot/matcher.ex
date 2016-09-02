@@ -46,6 +46,7 @@ defmodule RexBot.Matcher do
     "Woof back atcha!"
 
   """
+  @lint false
   @spec run_match(str :: String.t, team :: String.t, elasticsearch_api :: any) :: String.t
   def run_match(str, team, elasticsearch_api \\ Elasticsearch.HTTP) do
     cond do
@@ -64,7 +65,7 @@ defmodule RexBot.Matcher do
       Regex.match?(~r/^speak$/i, str) -> "Je m'appelle Rex. J'aime les treats."
       Regex.match?(~r/^(hello|hey|hi|yo|sup|holla|good morning|good afternoon)$/i, str) -> get_random_hello_response
       Regex.match?(~r/^(thanks|cheers|thank you|thankyou|thank-you|ta|nice one)$/i, str) -> get_random_thanks_response
-      true -> elasticsearch_api.run_search(str, team) |> elasticsearch_response
+      true -> str |> elasticsearch_api.run_search(team) |> elasticsearch_response
     end
   end
 
