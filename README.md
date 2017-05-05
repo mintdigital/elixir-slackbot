@@ -4,7 +4,7 @@ Rex Slack Bot
 What is this?
 ------------
 
-This project is a simple slack bot built in Elixir. You are able to ask the bot a question and it should respond with a response that it _thinks_ you may be after. We use ElasticSearch to perform the matching between the question posed and the question we have a stored answer for. It also comes with a few canned responses for given pieces of text. Some examples are Hello, Thanks, Woof (our ambassador mascot was a dog 🐶.) You can see a full list of canned responses [here](https://github.com/mintdigital/rexbot/blob/master/lib/rex_bot/matcher.ex#L53-L67).
+This project is a simple slack bot built in Elixir. You are able to ask the bot a question and it should respond with a response that it _thinks_ you may be after. We use ElasticSearch to perform the matching between the question posed and the question we have a stored answer for. It also comes with a few canned responses for given pieces of text. Some examples are Hello, Thanks, Woof (our ambassador mascot was a dog 🐶.) You can see a full list of canned responses [here](https://github.com/mintdigital/elixir-slackbot/blob/master/lib/rex_bot/matcher.ex#L53-L67).
 
 This codebase could be used to control any type of chat system. This particular codebase excels well when trying to intemperate a users request and responding with a predictable response.
 
@@ -21,7 +21,7 @@ This is when Rex was born. A definition of rex:
 >
 > For small-medium sized companies focusing on growth, Rex helps you record and distribute important internal information your workforce needs. Using Rex to handle low-value queries frees your team up to focus on the things that really matter.
 
-If you want to read more information on the actual idea, feel free to read [XZY by Stuart Waterman].
+If you want to read more information on the actual idea, feel free to read [XZY]() by [Stuart Waterman](https://twitter.com/stu_waterman).
 
 Is it Production ready?
 -------------
@@ -69,11 +69,15 @@ Technical setup
 
         docker-compose build
 
-7. Run the tests
+7. Install Dependencies
+
+        docker-compose run server mix deps.get
+
+8. Run the tests
 
         docker-compose run server mix test --include elasticsearch_api
 
-8. Run the app!
+9. Run the app!
 
         docker-compose up
 
@@ -85,7 +89,8 @@ Run:
 ```
 
 Then:
-_Don't forget to replace `{your_index_name}` with the value you added against `ELASTICSEARCH_INDEX_NAME` in your `.env` file. And replace `{your_team_id}` with the team id you kept safe from earlier 😉.
+
+_Don't forget to replace `{your_index_name}` with the value you added against `ELASTICSEARCH_INDEX_NAME` in your `.env` file. And replace `{your_team_id}` with the team id you kept safe from earlier 😉._
 
 ```
     alias Tirexs.HTTP, as: THTTP
