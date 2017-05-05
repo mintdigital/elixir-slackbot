@@ -57,7 +57,7 @@ Technical setup
 3. In Terminal, go to your projects directory and clone the project:
 
         cd ~/Documents/Projects/
-        git clone git@github.com:mintdigital/rexbot.git
+        git clone git@github.com:mintdigital/elixir-slackbot.git
 
 4. Copy the environment files
 
@@ -73,19 +73,17 @@ Technical setup
 
         docker-compose run server mix deps.get
 
-8. Run the tests
-
-        docker-compose run server mix test --include elasticsearch_api
-
 9. Run the app!
 
         docker-compose up
+
+If Mix hangs when running this, please try `docker-compose run server bash -c "mix compile 1>&1"` before hand. There is a known [issue](https://github.com/elixir-lang/elixir/issues/3342) on the Elixir Lang GitHub repository.
 
 ### Creating your first record
 
 Run:
 ```
-  iex -S mix
+  docker-compose run server iex -S mix
 ```
 
 Then:
