@@ -1,5 +1,8 @@
 defmodule Elasticsearch.InMemory.Fail do
   ### Module Attributes ###
+  @moduledoc """
+  Acts as a success mock for the `Elasticsearch.HTTP` module.
+  """
   @behaviour Elasticsearch
 
   ### Functions ###
