@@ -1,6 +1,6 @@
 # Set the Docker image you want to base your image off.
 # I chose this one because it has Elixir preinstalled.
-FROM trenpixster/elixir:1.3.0
+FROM trenpixster/elixir:1.4.1
 
 # Copy ENV from host to container
 ENV HOST_VARS inject_here
