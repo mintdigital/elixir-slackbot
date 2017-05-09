@@ -13,4 +13,3 @@ elasticsearch:
   image: elasticsearch:latest
   ports:
     - "9200"
-    - "9300"

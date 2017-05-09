@@ -21,7 +21,7 @@ This is when Rex was born. A definition of rex:
 >
 > For small-medium sized companies focusing on growth, Rex helps you record and distribute important internal information your workforce needs. Using Rex to handle low-value queries frees your team up to focus on the things that really matter.
 
-If you want to read more information on the actual idea, feel free to read [XZY]() by [Stuart Waterman](https://twitter.com/stu_waterman).
+If you want to read more information on the actual idea, feel free to read [Why we killed the Slack chatbot we built for small businesses](https://medium.com/mint-digital/why-we-killed-the-slack-chatbot-we-built-for-small-businesses-e4572dd64d9) by [Stuart Waterman](https://twitter.com/stu_waterman).
 
 Is it Production ready?
 -------------
